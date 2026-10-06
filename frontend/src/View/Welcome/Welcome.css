@@ -1,0 +1,94 @@
+/* Welcome page animations */
+
+/* Floating animation for the logo */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+
+/* Fade + slide up */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Bubble pulse */
+@keyframes bubbleMove {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.15; }
+  50%       { transform: scale(1.15) translateY(-30px); opacity: 0.25; }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.animate-fade-up-delay {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.5s;
+}
+
+.animate-fade-up-delay-2 {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.75s;
+}
+
+.animate-fade-up-delay-3 {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1s;
+}
+
+.animate-fade-up-delay-4 {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.25s;
+}
+
+/* Background floating bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  animation: bubbleMove 7s ease-in-out infinite;
+}
+
+.bubble-1 {
+  width: 320px;
+  height: 320px;
+  top: -80px;
+  left: -80px;
+  animation-delay: 0s;
+}
+
+.bubble-2 {
+  width: 200px;
+  height: 200px;
+  top: 60px;
+  right: -40px;
+  animation-delay: 1.5s;
+}
+
+.bubble-3 {
+  width: 150px;
+  height: 150px;
+  bottom: 100px;
+  left: 10%;
+  animation-delay: 3s;
+}
+
+.bubble-4 {
+  width: 250px;
+  height: 250px;
+  bottom: -60px;
+  right: 10%;
+  animation-delay: 2s;
+}
+
