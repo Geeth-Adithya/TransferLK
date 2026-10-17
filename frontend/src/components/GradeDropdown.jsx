@@ -4,7 +4,8 @@ function GradeDropdown({ value, onChange, grades, className, name, required, pla
   // We want to preserve the array order given by the backend (which is ordered by ID).
   // So we collect categories in order of appearance.
   const categories = [];
-  const grouped = grades.reduce((acc, grade) => {
+  const validGrades = Array.isArray(grades) ? grades : [];
+  const grouped = validGrades.reduce((acc, grade) => {
     const cat = grade.category || 'General';
     if (!acc[cat]) {
       acc[cat] = [];

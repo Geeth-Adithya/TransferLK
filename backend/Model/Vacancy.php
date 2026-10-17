@@ -10,7 +10,11 @@ class Vacancy {
     public $id;
     public $school_id;
     public $subject;
-    public $grade;
+    public $teaching_grade;
+    public $specific_grade;
+    public $pref_province;
+    public $pref_district;
+    public $pref_school;
     public $description;
     public $posted_by;
     public $status;
@@ -20,26 +24,32 @@ class Vacancy {
     }
 
     public function getAll($filters = []) {
-        $sql = "SELECT v.*, s.name as school_name, s.province, s.district, s.type as school_type
+        $sql = "SELECT v.*, 
+                COALESCE(s.name, u.current_school_name) as school_name, 
+                COALESCE(s.province, u.province) as province, 
+                COALESCE(s.district, u.district) as district, 
+                COALESCE(s.type, u.school_type) as school_type,
+                s.city as school_city
                 FROM {$this->table} v
-                LEFT JOIN schools s ON v.school_id = s.id
+                LEFT JOIN users u ON v.posted_by = u.id
+                LEFT JOIN schools s ON (v.school_id = s.id OR (v.school_id IS NULL AND u.current_school_name = s.name))
                 WHERE 1=1";
         $params = [];
         $types  = '';
 
-        if (!empty($filters['province'])) {
-            $sql .= ' AND s.province = ?';
+        if (!empty($filters['province']) && $filters['province'] !== 'All Provinces') {
+            $sql .= ' AND COALESCE(s.province, u.province) = ?';
             $params[] = $filters['province'];
             $types   .= 's';
         }
-        if (!empty($filters['district'])) {
-            $sql .= ' AND s.district = ?';
+        if (!empty($filters['district']) && $filters['district'] !== 'All Districts') {
+            $sql .= ' AND COALESCE(s.district, u.district) = ?';
             $params[] = $filters['district'];
             $types   .= 's';
         }
         if (!empty($filters['school_name'])) {
-            $sql .= ' AND s.name = ?';
-            $params[] = $filters['school_name'];
+            $sql .= ' AND COALESCE(s.name, u.current_school_name) LIKE ?';
+            $params[] = '%' . $filters['school_name'] . '%';
             $types   .= 's';
         }
         if (!empty($filters['subject'])) {
@@ -47,12 +57,12 @@ class Vacancy {
             $params[] = $filters['subject'];
             $types   .= 's';
         }
-        if (!empty($filters['school_type'])) {
-            $sql .= ' AND s.type = ?';
+        if (!empty($filters['school_type']) && $filters['school_type'] !== 'All Types') {
+            $sql .= ' AND COALESCE(s.type, u.school_type) = ?';
             $params[] = $filters['school_type'];
             $types   .= 's';
         }
-        if (!empty($filters['status'])) {
+        if (!empty($filters['status']) && $filters['status'] !== 'All') {
             $sql .= ' AND v.status = ?';
             $params[] = $filters['status'];
             $types   .= 's';
@@ -69,7 +79,17 @@ class Vacancy {
     }
 
     public function findById($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+        $sql = "SELECT v.*, 
+                COALESCE(s.name, u.current_school_name) as school_name, 
+                COALESCE(s.province, u.province) as province, 
+                COALESCE(s.district, u.district) as district, 
+                COALESCE(s.type, u.school_type) as school_type,
+                s.city as school_city
+                FROM {$this->table} v
+                LEFT JOIN users u ON v.posted_by = u.id
+                LEFT JOIN schools s ON (v.school_id = s.id OR (v.school_id IS NULL AND u.current_school_name = s.name))
+                WHERE v.id = ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -77,14 +97,24 @@ class Vacancy {
 
     public function create() {
         $stmt = $this->conn->prepare(
-            "INSERT INTO {$this->table} (school_id, subject, grade, description, posted_by, status) VALUES (?, ?, ?, ?, ?, 'open')"
+            "INSERT INTO {$this->table} (school_id, subject, teaching_grade, specific_grade, pref_province, pref_district, pref_school, description, posted_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')"
         );
-        $stmt->bind_param('isssi', $this->school_id, $this->subject, $this->grade, $this->description, $this->posted_by);
+        $stmt->bind_param('isssssssi', $this->school_id, $this->subject, $this->teaching_grade, $this->specific_grade, $this->pref_province, $this->pref_district, $this->pref_school, $this->description, $this->posted_by);
         return $stmt->execute();
     }
 
     public function findByUserId($userId) {
-        $stmt = $this->conn->prepare("SELECT v.*, s.name as school_name, s.province, s.district FROM {$this->table} v LEFT JOIN schools s ON v.school_id = s.id WHERE v.posted_by = ? ORDER BY v.id DESC");
+        $sql = "SELECT v.*, 
+                COALESCE(s.name, u.current_school_name) as school_name, 
+                COALESCE(s.province, u.province) as province, 
+                COALESCE(s.district, u.district) as district,
+                COALESCE(s.type, u.school_type) as school_type,
+                s.city as school_city
+                FROM {$this->table} v 
+                LEFT JOIN users u ON v.posted_by = u.id
+                LEFT JOIN schools s ON (v.school_id = s.id OR (v.school_id IS NULL AND u.current_school_name = s.name))
+                WHERE v.posted_by = ? ORDER BY v.id DESC";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -92,9 +122,9 @@ class Vacancy {
 
     public function update() {
         $stmt = $this->conn->prepare(
-            "UPDATE {$this->table} SET subject=?, grade=?, description=?, status=? WHERE id=?"
+            "UPDATE {$this->table} SET subject=?, teaching_grade=?, specific_grade=?, pref_province=?, pref_district=?, pref_school=?, description=?, status=? WHERE id=?"
         );
-        $stmt->bind_param('ssssi', $this->subject, $this->grade, $this->description, $this->status, $this->id);
+        $stmt->bind_param('ssssssssi', $this->subject, $this->teaching_grade, $this->specific_grade, $this->pref_province, $this->pref_district, $this->pref_school, $this->description, $this->status, $this->id);
         return $stmt->execute();
     }
 

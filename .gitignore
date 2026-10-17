@@ -35,4 +35,6 @@ scratch/
 .env
 .env.local
 .env.*.local
+backend/.env
+**/.env
 backend/config/secrets.php

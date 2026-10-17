@@ -39,7 +39,11 @@ class VacancyController {
         $vacancy = new Vacancy();
         $vacancy->school_id  = empty($data['school_id']) ? null : $data['school_id'];
         $vacancy->subject    = $data['subject'] ?? '';
-        $vacancy->grade      = $data['grade'] ?? '';
+        $vacancy->teaching_grade = $data['teaching_grade'] ?? '';
+        $vacancy->specific_grade = $data['specific_grade'] ?? '';
+        $vacancy->pref_province  = $data['pref_province'] ?? '';
+        $vacancy->pref_district  = $data['pref_district'] ?? '';
+        $vacancy->pref_school    = $data['pref_school'] ?? '';
         $vacancy->description = $data['description'] ?? '';
         $vacancy->posted_by  = $user['id'];
         $vacancy->status     = 'open';
@@ -66,7 +70,11 @@ class VacancyController {
 
         $vacancy->id = $id;
         $vacancy->subject = $data['subject'] ?? $existing['subject'];
-        $vacancy->grade = $data['grade'] ?? $existing['grade'];
+        $vacancy->teaching_grade = $data['teaching_grade'] ?? $existing['teaching_grade'];
+        $vacancy->specific_grade = $data['specific_grade'] ?? $existing['specific_grade'];
+        $vacancy->pref_province  = $data['pref_province'] ?? $existing['pref_province'];
+        $vacancy->pref_district  = $data['pref_district'] ?? $existing['pref_district'];
+        $vacancy->pref_school    = $data['pref_school'] ?? $existing['pref_school'];
         $vacancy->description = $data['description'] ?? $existing['description'];
         $vacancy->status = $data['status'] ?? $existing['status'];
 

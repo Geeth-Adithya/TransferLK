@@ -26,14 +26,14 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md anim-scale-in">
 
         <div className="text-center mb-6">
           <h2 className="text-3xl font-extrabold text-blue-700">Welcome Back 👋</h2>
           <p className="text-gray-400 text-sm mt-1">Login to your TransferLK account</p>
           {from !== '/dashboard' && (
             <p className="text-xs text-blue-500 mt-2 bg-blue-50 px-3 py-1.5 rounded-lg">
-              🔐 Login to view the vacancy details
+              🔐 Login to view the transfer request details
             </p>
           )}
         </div>
@@ -53,9 +53,14 @@ function Login() {
             className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
             required
           />
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-xs text-blue-600 hover:text-blue-800 hover:underline font-medium">
+              Forgot password?
+            </Link>
+          </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition text-sm"
+            className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition text-sm shadow-md shadow-blue-200"
           >
             Login →
           </button>
@@ -69,7 +74,7 @@ function Login() {
             </Link>
           </p>
           <Link to="/vacancies" className="text-xs text-gray-400 hover:underline block">
-            ← Back to vacancy search
+            ← Back to transfer request search
           </Link>
         </div>
       </div>

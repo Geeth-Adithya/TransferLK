@@ -8,7 +8,7 @@ require_once __DIR__ . '/../Controller/ConfigController.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -31,10 +31,13 @@ $school  = new SchoolController();
 $config  = new ConfigController();
 
 $response = match (true) {
-    $resource === 'auth' && $id === 'register' && $method === 'POST' => $auth->register($body),
-    $resource === 'auth' && $id === 'login'    && $method === 'POST' => $auth->login($body),
-    $resource === 'auth' && $id === 'me'       && $method === 'GET'  => $auth->me(),
-    $resource === 'auth' && $id === 'me'       && $method === 'PUT'  => $auth->updateMe($body),
+    $resource === 'auth' && $id === 'register'        && $method === 'POST' => $auth->register($body),
+    $resource === 'auth' && $id === 'login'           && $method === 'POST' => $auth->login($body),
+    $resource === 'auth' && $id === 'forgot-password' && $method === 'POST' => $auth->forgotPassword($body),
+    $resource === 'auth' && $id === 'verify-otp'      && $method === 'POST' => $auth->verifyOtp($body),
+    $resource === 'auth' && $id === 'reset-password'  && $method === 'POST' => $auth->resetPassword($body),
+    $resource === 'auth' && $id === 'me'              && $method === 'GET'  => $auth->me(),
+    $resource === 'auth' && $id === 'me'              && $method === 'PUT'  => $auth->updateMe($body),
 
     $resource === 'vacancies' && $id === 'me'   && $method === 'GET'  => $vacancy->getMyVacancies(),
     $resource === 'vacancies' && $method === 'GET'  && !$id => $vacancy->getAll(),

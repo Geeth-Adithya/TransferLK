@@ -50,13 +50,13 @@ function LoginModal({ vacancy, onClose, onLogin, onRegister }) {
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-4xl mb-3">🔐</div>
           <h2 className="text-xl font-extrabold text-gray-800">Login Required</h2>
           <p className="text-gray-400 text-sm mt-1 leading-relaxed">
-            Please login or create an account to view full vacancy details.
+            Please login or create an account to view full request details.
           </p>
         </div>
         {vacancy && (
           <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-5 text-sm text-gray-600 space-y-1">
             <p className="font-semibold text-blue-800">
-              {SUBJECT_ICONS[vacancy.subject] || SUBJECT_ICONS.default} {vacancy.subject} Teacher Vacancy
+              {SUBJECT_ICONS[vacancy.subject] || SUBJECT_ICONS.default} {vacancy.subject} Transfer Request
             </p>
             <p>📍 {vacancy.district}</p>
             <p>🏫 {vacancy.school_name}</p>
@@ -98,19 +98,19 @@ function VacancyCard({ vacancy, onViewClick }) {
           </span>
         </div>
         <h3 className="text-lg font-extrabold text-gray-800 mb-3">
-          {icon} {vacancy.subject} Teacher Vacancy
+          {icon} {vacancy.subject} Transfer Request
         </h3>
         <div className="space-y-1.5 text-sm text-gray-500">
-          <p>📍 {vacancy.district}{vacancy.province ? `, ${vacancy.province}` : ''}</p>
+          <p>📍 {vacancy.district || vacancy.province ? `${vacancy.district || ''}${vacancy.district && vacancy.province ? ', ' : ''}${vacancy.province || ''}` : 'Location not specified'}</p>
           <p>🏫 {vacancy.school_name || 'School not specified'}</p>
-          {vacancy.grade && <p>📋 Grade: {vacancy.grade}</p>}
+          {(vacancy.teaching_grade || vacancy.grade) && <p>📋 Grade: {vacancy.teaching_grade || vacancy.grade} {vacancy.specific_grade && `(${vacancy.specific_grade})`}</p>}
         </div>
       </div>
       <button
         onClick={() => onViewClick(vacancy)}
         className="mt-5 w-full py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 active:scale-95 transition-all duration-200"
       >
-        View Vacancy →
+        View Request →
       </button>
     </div>
   );
@@ -225,15 +225,15 @@ function PublicFindVacancy() {
       )}
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-600 py-12 px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2">🔍 Find a Vacancy</h1>
-        <p className="text-blue-200 text-sm">Browse school transfer vacancies across all provinces in Sri Lanka</p>
+      <div className="bg-gradient-to-r from-blue-900 to-blue-600 pt-28 pb-12 px-6 text-center">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2">🔍 Find a Transfer Request</h1>
+        <p className="text-blue-200 text-sm">Browse school transfer requests across all provinces in Sri Lanka</p>
       </div>
 
       {/* Filters Panel */}
-      <div className="max-w-6xl mx-auto px-4 -mt-6 mb-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Filter Vacancies</h2>
+      <div className="max-w-6xl mx-auto px-4 mt-6 mb-8 relative z-10">
+        <div className="bg-white rounded-2xl shadow-lg p-6 anim-slide-up anim-delay-1">
+          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Filter Requests</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
             <div>
@@ -280,7 +280,7 @@ function PublicFindVacancy() {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-400 mb-1 block">Vacancy Status</label>
+              <label className="text-xs font-semibold text-gray-400 mb-1 block">Request Status</label>
               <select value={status} onChange={(e) => setStatus(e.target.value)} className={selectCls}>
                 {STATUSES.map((s) => (
                   <option key={s} value={s}>{s === 'All' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}</option>
@@ -301,7 +301,7 @@ function PublicFindVacancy() {
       <div className="max-w-6xl mx-auto px-4 pb-12">
         <div className="flex justify-between items-center mb-5">
           <p className="text-sm text-gray-400">
-            {loading ? 'Loading...' : <>Showing <span className="font-semibold text-gray-700">{vacancies.length}</span> vacancies</>}
+            {loading ? 'Loading...' : <>Showing <span className="font-semibold text-gray-700">{vacancies.length}</span> requests</>}
           </p>
           {!isAuthenticated() && (
             <p className="text-xs text-blue-500">🔐 Login to view full details</p>
@@ -325,7 +325,7 @@ function PublicFindVacancy() {
         {!loading && !error && vacancies.length === 0 && (
           <div className="text-center py-24 text-gray-400">
             <p className="text-5xl mb-4">🏫</p>
-            <p className="text-lg font-semibold">No vacancies found</p>
+            <p className="text-lg font-semibold">No requests found</p>
             <p className="text-sm mt-1">Try adjusting your filters</p>
             <button onClick={clearFilters} className="mt-4 text-blue-500 hover:underline text-sm">Clear filters</button>
           </div>
@@ -333,8 +333,10 @@ function PublicFindVacancy() {
 
         {!loading && !error && vacancies.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {vacancies.map((v) => (
-              <VacancyCard key={v.id} vacancy={v} onViewClick={handleViewClick} />
+            {vacancies.map((v, i) => (
+              <div key={v.id} className={`anim-slide-up anim-delay-${Math.min(i + 1, 12)}`}>
+                <VacancyCard vacancy={v} onViewClick={handleViewClick} />
+              </div>
             ))}
           </div>
         )}

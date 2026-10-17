@@ -2,7 +2,8 @@ import React from 'react';
 
 function SubjectDropdown({ value, onChange, subjects, className, name, required, placeholder = "Select Subject" }) {
   // Group subjects by category
-  const grouped = subjects.reduce((acc, subject) => {
+  const validSubjects = Array.isArray(subjects) ? subjects : [];
+  const grouped = validSubjects.reduce((acc, subject) => {
     const cat = subject.category || 'General';
     if (!acc[cat]) acc[cat] = [];
     acc[cat].push(subject);

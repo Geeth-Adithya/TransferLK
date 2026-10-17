@@ -5,6 +5,7 @@ import { getSubjects, getGrades } from '../../Controller/ConfigController';
 import SchoolDropdown from '../../components/SchoolDropdown';
 import SubjectDropdown from '../../components/SubjectDropdown';
 import GradeDropdown from '../../components/GradeDropdown';
+import PasswordStrengthMeter from '../../components/PasswordStrengthMeter';
 
 // ── NIC Utilities ────────────────────────────────────────────
 function extractFromNIC(nic) {
@@ -158,6 +159,11 @@ function Step1({ data, onChange, errors }) {
           {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
         </Field>
       </div>
+
+      <PasswordStrengthMeter
+        password={data.password}
+        confirmPassword={data.confirmPassword}
+      />
     </div>
   );
 }
@@ -318,7 +324,7 @@ function Step3({ data, onChange, errors }) {
   );
 }
 
-function Step4({ data, onChange, subjects }) {
+function Step4({ data, onChange, subjects, errors }) {
   const districts = data.prefProvince ? (DISTRICTS_BY_PROVINCE[data.prefProvince] || []) : [];
 
   const filteredSubjects = data.teachingLevel && subjects
@@ -375,16 +381,24 @@ function Step4({ data, onChange, subjects }) {
       </Field>
 
       {/* Terms */}
-      <label className="flex items-start gap-3 cursor-pointer">
-        <input type="checkbox" checked={data.agreed} onChange={(e) => onChange('agreed', e.target.checked)}
-          className="mt-0.5 accent-blue-600 w-4 h-4 flex-shrink-0" />
-        <span className="text-xs text-gray-500">
-          I agree to the{' '}
-          <a href="#" className="text-blue-600 hover:underline">Terms & Conditions</a> and{' '}
-          <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
-          I confirm that all provided information is accurate.
-        </span>
-      </label>
+      <div>
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" checked={data.agreed} onChange={(e) => onChange('agreed', e.target.checked)}
+            className="mt-0.5 accent-blue-600 w-4 h-4 flex-shrink-0" />
+          <span className="text-xs text-gray-500">
+            I agree to the{' '}
+            <a href="#" className="text-blue-600 hover:underline">Terms & Conditions</a> and{' '}
+            <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
+            I confirm that all provided information is accurate.
+          </span>
+        </label>
+        {errors?.agreed && (
+          <p className="text-red-500 text-xs font-semibold mt-2 bg-red-50 border border-red-200 p-2.5 rounded-lg flex items-center gap-1.5 animate-fade">
+            <span>⚠️</span>
+            <span>{errors.agreed}</span>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -396,6 +410,8 @@ function Register() {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const [subjectsList, setSubjectsList] = useState([]);
   const [gradesList, setGradesList] = useState([]);
@@ -478,17 +494,24 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
     if (!form.agreed) {
-      setErrors({ agreed: 'You must agree to the terms' });
+      setSubmitError('Please agree to the Terms & Conditions and Privacy Policy to register.');
+      setErrors((prev) => ({ ...prev, agreed: 'You must agree to the terms to proceed' }));
       return;
     }
     
+    setLoading(true);
     try {
       // Call the API (from AuthController.js)
       await registerApi(form);
       setSubmitted(true);
     } catch (err) {
-      setErrors({ agreed: err.response?.data?.error || 'Registration failed. Please try again.' });
+      const msg = err.response?.data?.error || err.message || 'Registration failed. Please try again.';
+      setSubmitError(msg);
+      setErrors((prev) => ({ ...prev, agreed: msg }));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -527,6 +550,21 @@ function Register() {
         {/* Stepper */}
         <Stepper current={step} />
 
+        {/* Global Submit Error Banner */}
+        {submitError && (
+          <div className="my-4 bg-red-50 border border-red-200 text-red-700 text-xs p-3.5 rounded-xl flex items-center justify-between gap-2 animate-fade">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">⚠️</span>
+              <span className="font-medium">{submitError}</span>
+            </div>
+            {submitError.toLowerCase().includes('already registered') && (
+              <Link to="/login" className="font-bold underline text-blue-600 hover:text-blue-800 shrink-0">
+                Login here →
+              </Link>
+            )}
+          </div>
+        )}
+
         {/* Step content */}
         <form onSubmit={handleSubmit}>
           <div className="min-h-[300px]">
@@ -538,7 +576,7 @@ function Register() {
 
           {/* Navigation buttons */}
           <div className="flex justify-between items-center mt-8 pt-5 border-t border-gray-100">
-            <button type="button" onClick={handleBack} disabled={step === 0}
+            <button type="button" onClick={handleBack} disabled={step === 0 || loading}
               className="px-5 py-2 text-sm text-gray-400 hover:text-blue-600 disabled:opacity-0 transition font-semibold">
               ← Back
             </button>
@@ -555,9 +593,16 @@ function Register() {
                 Next →
               </button>
             ) : (
-              <button type="submit"
-                className="px-6 py-2 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 transition">
-                ✓ Register
+              <button type="submit" disabled={loading}
+                className="px-6 py-2 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md shadow-green-200">
+                {loading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Registering...</span>
+                  </>
+                ) : (
+                  <span>✓ Register</span>
+                )}
               </button>
             )}
           </div>

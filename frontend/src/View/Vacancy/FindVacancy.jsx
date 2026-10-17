@@ -8,7 +8,10 @@ function FindVacancy() {
 
   useEffect(() => {
     getVacancies().then((data) => {
-      setVacancies(data);
+      setVacancies(Array.isArray(data) ? data : []);
+      setLoading(false);
+    }).catch(() => {
+      setVacancies([]);
       setLoading(false);
     });
   }, []);

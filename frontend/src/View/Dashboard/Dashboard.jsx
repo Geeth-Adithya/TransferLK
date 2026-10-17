@@ -1,22 +1,79 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getMyVacancies } from '../../Controller/VacancyController';
 
 function Dashboard() {
+  const [myVacancies, setMyVacancies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getMyVacancies().then(vacs => {
+      setMyVacancies(vacs || []);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-blue-700 mb-6">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Link to="/vacancies" className="bg-white rounded-2xl shadow p-6 hover:shadow-md transition text-center">
-          <h3 className="text-xl font-semibold text-gray-700">Find Vacancies</h3>
-          <p className="text-gray-400 text-sm mt-2">Browse open transfer vacancies</p>
+    <div className="p-6 max-w-5xl mx-auto space-y-8">
+      <h2 className="text-3xl font-bold text-blue-700 anim-slide-up">Dashboard</h2>
+      
+      {/* Quick Links */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Link to="/vacancies" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-1 group">
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">🔍</div>
+          <h3 className="text-lg font-bold text-gray-800">Browse Requests</h3>
+          <p className="text-gray-500 text-sm mt-1">Search for mutual transfers</p>
         </Link>
-        <Link to="/post-vacancy" className="bg-white rounded-2xl shadow p-6 hover:shadow-md transition text-center">
-          <h3 className="text-xl font-semibold text-gray-700">Post a Vacancy</h3>
-          <p className="text-gray-400 text-sm mt-2">Create a new vacancy listing</p>
+        <Link to="/post-vacancy" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-2 group">
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">📝</div>
+          <h3 className="text-lg font-bold text-gray-800">Post a Request</h3>
+          <p className="text-gray-500 text-sm mt-1">Create a new transfer request</p>
         </Link>
-        <Link to="/profile" className="bg-white rounded-2xl shadow p-6 hover:shadow-md transition text-center">
-          <h3 className="text-xl font-semibold text-gray-700">My Profile</h3>
-          <p className="text-gray-400 text-sm mt-2">View and edit your profile</p>
+        <Link to="/profile" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-3 group">
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">👤</div>
+          <h3 className="text-lg font-bold text-gray-800">My Profile</h3>
+          <p className="text-gray-500 text-sm mt-1">View and edit your profile</p>
         </Link>
+      </div>
+
+      {/* Overview Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 anim-slide-up anim-delay-4">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-800">My Transfer Requests</h3>
+          <Link to="/post-vacancy" className="text-sm font-semibold text-blue-600 hover:underline">Manage All &rarr;</Link>
+        </div>
+        
+        {loading ? (
+          <p className="text-gray-400 text-sm text-center py-4">Loading requests...</p>
+        ) : myVacancies.length === 0 ? (
+          <div className="text-center py-8 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+            <p className="text-gray-500 mb-3">You haven't posted any transfer requests yet.</p>
+            <Link to="/post-vacancy" className="inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition">
+              Post your first request
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {myVacancies.map(vac => (
+              <div key={vac.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors">
+                <div>
+                  <h4 className="font-bold text-gray-800">{vac.subject}</h4>
+                  <p className="text-sm text-gray-500 mt-0.5">
+                    Grade: {vac.teaching_grade} {vac.specific_grade && `(${vac.specific_grade})`}
+                  </p>
+                </div>
+                <div className="mt-3 sm:mt-0 flex items-center gap-3">
+                  <span className={`text-xs px-2.5 py-1 rounded-md font-bold uppercase ${vac.status === 'open' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                    {vac.status}
+                  </span>
+                  <Link to={`/post-vacancy`} className="text-sm font-semibold text-blue-600 hover:underline bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
+                    Edit
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

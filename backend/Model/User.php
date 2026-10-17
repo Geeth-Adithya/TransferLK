@@ -97,7 +97,7 @@ class User {
         
         $stmt = $this->conn->prepare($sql);
         
-        $stmt->bind_param('ssssssssssisssssssssi', 
+        $stmt->bind_param('sssssssssissssssssssi', 
             $this->name, $this->mobile,
             $this->nic, $this->teacher_id, $this->dob, $this->gender, $this->teaching_level, $this->subject, $this->teacher_grade, $this->years_of_service, $this->province, $this->district,
             $this->current_school_name, $this->school_type, $this->position,
@@ -106,5 +106,36 @@ class User {
         );
         
         return $stmt->execute();
+    }
+
+    public function saveResetOtp($email, $otp, $minutes = 15) {
+        $del = $this->conn->prepare("DELETE FROM password_resets WHERE email = ?");
+        $del->bind_param('s', $email);
+        $del->execute();
+
+        $stmt = $this->conn->prepare("INSERT INTO password_resets (email, otp, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? MINUTE))");
+        $stmt->bind_param('ssi', $email, $otp, $minutes);
+        return $stmt->execute();
+    }
+
+    public function verifyResetOtp($email, $otp) {
+        $stmt = $this->conn->prepare("SELECT id FROM password_resets WHERE email = ? AND otp = ? AND expires_at > NOW()");
+        $stmt->bind_param('ss', $email, $otp);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return $res->num_rows > 0;
+    }
+
+    public function resetPassword($email, $newPassword) {
+        $hashed = password_hash($newPassword, PASSWORD_BCRYPT);
+        $stmt = $this->conn->prepare("UPDATE {$this->table} SET password = ? WHERE email = ?");
+        $stmt->bind_param('ss', $hashed, $email);
+        $res = $stmt->execute();
+        if ($res) {
+            $del = $this->conn->prepare("DELETE FROM password_resets WHERE email = ?");
+            $del->bind_param('s', $email);
+            $del->execute();
+        }
+        return $res;
     }
 }

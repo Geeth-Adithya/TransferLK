@@ -2,6 +2,7 @@
 // AuthController.php - Handles login & register
 
 require_once __DIR__ . '/../Model/User.php';
+require_once __DIR__ . '/../services/Mailer.php';
 
 class AuthController {
 
@@ -143,5 +144,91 @@ class AuthController {
         
         http_response_code(500);
         return ['error' => 'Failed to update profile'];
+    }
+
+    public function forgotPassword($data) {
+        $email = trim($data['email'] ?? '');
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            return ['error' => 'A valid email address is required'];
+        }
+
+        $user = new User();
+        $record = $user->findByEmail($email);
+        if (!$record) {
+            http_response_code(404);
+            return ['error' => 'No user account found with this email address'];
+        }
+
+        // Generate 6-digit numeric OTP
+        $otp = (string)random_int(100000, 999999);
+        $user->saveResetOtp($email, $otp, 15);
+
+        // Send email via Gmail SMTP using Mailer service (configured in .env)
+        $name = $record['name'] ?? 'Teacher';
+        $mailer = new Mailer();
+        $sent = $mailer->sendPasswordResetOtp($email, $name, $otp);
+
+        $response = [
+            'message' => 'A 6-digit verification code has been sent to your email.'
+        ];
+
+        // If email failed to send (e.g. SMTP credentials issue)
+        if (!$sent) {
+            $response['warning'] = 'Could not deliver email via SMTP. Please verify Gmail App Password configuration in backend/.env.';
+            // Include dev_otp fallback only for local environment
+            if (isset($_SERVER['SERVER_NAME']) && in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])) {
+                $response['dev_otp'] = $otp;
+            }
+        }
+
+        return $response;
+    }
+
+    public function verifyOtp($data) {
+        $email = trim($data['email'] ?? '');
+        $otp   = trim($data['otp'] ?? '');
+
+        if (empty($email) || empty($otp)) {
+            http_response_code(400);
+            return ['error' => 'Email and verification code are required'];
+        }
+
+        $user = new User();
+        if ($user->verifyResetOtp($email, $otp)) {
+            return ['valid' => true, 'message' => 'Verification code confirmed'];
+        }
+
+        http_response_code(400);
+        return ['error' => 'Invalid or expired verification code'];
+    }
+
+    public function resetPassword($data) {
+        $email       = trim($data['email'] ?? '');
+        $otp         = trim($data['otp'] ?? '');
+        $newPassword = $data['newPassword'] ?? '';
+
+        if (empty($email) || empty($otp) || empty($newPassword)) {
+            http_response_code(400);
+            return ['error' => 'All fields are required'];
+        }
+
+        if (strlen($newPassword) < 8) {
+            http_response_code(400);
+            return ['error' => 'Password must be at least 8 characters long'];
+        }
+
+        $user = new User();
+        if (!$user->verifyResetOtp($email, $otp)) {
+            http_response_code(400);
+            return ['error' => 'Invalid or expired verification code'];
+        }
+
+        if ($user->resetPassword($email, $newPassword)) {
+            return ['message' => 'Password reset successfully. You can now login.'];
+        }
+
+        http_response_code(500);
+        return ['error' => 'Failed to reset password. Please try again.'];
     }
 }
