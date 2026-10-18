@@ -44,3 +44,9 @@
 .anim-delay-10 { animation-delay: 0.50s; }
 .anim-delay-11 { animation-delay: 0.55s; }
 .anim-delay-12 { animation-delay: 0.60s; }
+
+/* Mobile viewport overflow guard */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}

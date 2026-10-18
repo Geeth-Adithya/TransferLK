@@ -109,34 +109,34 @@ function Profile() {
     : subjectsList;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gray-50 py-6 sm:py-10 px-3 sm:px-4">
+      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
         
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-gray-100">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-3xl font-bold">
+        <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 border border-gray-100">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold shrink-0">
               {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
-              <p className="text-blue-600 font-medium">{user.role === 'teacher' ? 'Teacher' : user.role}</p>
-              <span className={`text-xs px-2 py-1 rounded-full font-semibold mt-2 inline-block ${user.status === 'verified' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{user.name}</h2>
+              <p className="text-blue-600 font-medium text-sm sm:text-base">{user.role === 'teacher' ? 'Teacher' : user.role}</p>
+              <span className={`text-xs px-2 py-1 rounded-full font-semibold mt-1.5 inline-block ${user.status === 'verified' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
                 Account Status: {user.status ? user.status.toUpperCase() : 'PENDING'}
               </span>
             </div>
           </div>
-          <div>
+          <div className="w-full sm:w-auto">
             {!isEditing ? (
-              <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-blue-700 transition">
+              <button onClick={() => setIsEditing(true)} className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-blue-700 transition">
                 Edit Profile
               </button>
             ) : (
-              <div className="flex gap-2">
-                <button onClick={() => { setIsEditing(false); setFormData(user); }} disabled={saving} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition">
+              <div className="flex gap-2 w-full sm:w-auto">
+                <button onClick={() => { setIsEditing(false); setFormData(user); }} disabled={saving} className="flex-1 sm:flex-initial px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition">
                   Cancel
                 </button>
-                <button onClick={handleSave} disabled={saving} className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-green-700 transition">
+                <button onClick={handleSave} disabled={saving} className="flex-1 sm:flex-initial px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-green-700 transition">
                   {saving ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
@@ -144,10 +144,10 @@ function Profile() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           
           {/* Account Info */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Account Information</h3>
             <div className="space-y-3 text-sm">
               <div className="flex flex-col">
@@ -170,10 +170,10 @@ function Profile() {
           </div>
 
           {/* Teacher Info */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Personal & Professional Info</h3>
             <div className="space-y-3 text-sm">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="flex flex-col">
                   <span className="text-gray-500 text-xs font-semibold mb-1">Teacher ID</span> 
                   {isEditing ? <input className={inputCls} value={formData.teacher_id || ''} onChange={(e) => handleChange('teacher_id', e.target.value)} /> : <span className="font-medium">{user.teacher_id || '-'}</span>}
@@ -183,7 +183,7 @@ function Profile() {
                   {isEditing ? <input type="date" className={inputCls} value={formData.dob || ''} onChange={(e) => handleChange('dob', e.target.value)} /> : <span className="font-medium">{user.dob || '-'}</span>}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="flex flex-col">
                   <span className="text-gray-500 text-xs font-semibold mb-1">Gender</span> 
                   {isEditing ? (
@@ -204,7 +204,7 @@ function Profile() {
           </div>
 
           {/* Current School */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-gray-100 md:col-span-2">
             <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Current School & Teaching Details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
               
@@ -289,7 +289,7 @@ function Profile() {
           </div>
 
           {/* Transfer Preferences */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-gray-100 md:col-span-2">
             <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Transfer Preferences</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
               

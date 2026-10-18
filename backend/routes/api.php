@@ -6,20 +6,46 @@ require_once __DIR__ . '/../Controller/VacancyController.php';
 require_once __DIR__ . '/../Controller/SchoolController.php';
 require_once __DIR__ . '/../Controller/ConfigController.php';
 
+require_once __DIR__ . '/../config/EnvLoader.php';
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$allowedOrigins = [
+    'https://transferlk.pearlwaves.online',
+    'http://transferlk.pearlwaves.online',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173'
+];
+if ($envFrontend = getenv('FRONTEND_URL')) {
+    $allowedOrigins[] = rtrim($envFrontend, '/');
+}
+
+if (in_array($origin, $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header('Access-Control-Allow-Origin: *');
+}
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-$method = $_SERVER['REQUEST_METHOD'];
-$path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$path   = str_replace('/TransferLK/backend/api', '', $path);
-$parts  = explode('/', trim($path, '/'));
+$method  = $_SERVER['REQUEST_METHOD'];
+$uriPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Universal path resolution (works on localhost, subdirectories, and production domain)
+if (preg_match('#/api(?:/+(.*))?$#i', $uriPath, $matches)) {
+    $path = $matches[1] ?? '';
+} else {
+    $path = str_replace(['/TransferLK/backend/api', '/backend/api', '/api'], '', $uriPath);
+}
+$parts  = array_values(array_filter(explode('/', trim($path, '/')), fn($p) => $p !== ''));
 $body   = json_decode(file_get_contents('php://input'), true) ?? [];
 
 $resource = $parts[0] ?? '';

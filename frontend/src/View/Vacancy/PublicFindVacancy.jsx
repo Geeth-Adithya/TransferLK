@@ -42,7 +42,7 @@ function LoginModal({ vacancy, onClose, onLogin, onRegister }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
       onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-7 relative"
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-sm p-5 sm:p-7 relative max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose}
           className="absolute top-4 right-4 text-gray-300 hover:text-gray-600 text-xl transition">✕</button>
@@ -83,24 +83,24 @@ function VacancyCard({ vacancy, onViewClick }) {
   const icon = SUBJECT_ICONS[vacancy.subject] || SUBJECT_ICONS.default;
   const { label, cls } = statusLabel(vacancy.status);
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between">
+    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between">
       <div>
-        <div className="flex justify-between items-start mb-3">
-          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+        <div className="flex justify-between items-start mb-3 gap-2">
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${
             vacancy.school_type === 'National' ? 'bg-blue-100 text-blue-700' :
             vacancy.school_type === 'Provincial' ? 'bg-purple-100 text-purple-700' :
             'bg-gray-100 text-gray-600'
           }`}>
             🏛️ {vacancy.school_type || 'School'}
           </span>
-          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${cls}`}>
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${cls}`}>
             {label}
           </span>
         </div>
-        <h3 className="text-lg font-extrabold text-gray-800 mb-3">
+        <h3 className="text-base sm:text-lg font-extrabold text-gray-800 mb-2 sm:mb-3">
           {icon} {vacancy.subject} Transfer Request
         </h3>
-        <div className="space-y-1.5 text-sm text-gray-500">
+        <div className="space-y-1.5 text-xs sm:text-sm text-gray-500 break-words">
           <p>📍 {vacancy.district || vacancy.province ? `${vacancy.district || ''}${vacancy.district && vacancy.province ? ', ' : ''}${vacancy.province || ''}` : 'Location not specified'}</p>
           <p>🏫 {vacancy.school_name || 'School not specified'}</p>
           {(vacancy.teaching_grade || vacancy.grade) && <p>📋 Grade: {vacancy.teaching_grade || vacancy.grade} {vacancy.specific_grade && `(${vacancy.specific_grade})`}</p>}
@@ -108,7 +108,7 @@ function VacancyCard({ vacancy, onViewClick }) {
       </div>
       <button
         onClick={() => onViewClick(vacancy)}
-        className="mt-5 w-full py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 active:scale-95 transition-all duration-200"
+        className="mt-4 sm:mt-5 w-full py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 active:scale-95 transition-all duration-200"
       >
         View Request →
       </button>
@@ -225,16 +225,16 @@ function PublicFindVacancy() {
       )}
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-600 pt-28 pb-12 px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2">🔍 Find a Transfer Request</h1>
-        <p className="text-blue-200 text-sm">Browse school transfer requests across all provinces in Sri Lanka</p>
+      <div className="bg-gradient-to-r from-blue-900 to-blue-600 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 text-center">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">🔍 Find a Transfer Request</h1>
+        <p className="text-blue-200 text-xs sm:text-sm">Browse school transfer requests across all provinces in Sri Lanka</p>
       </div>
 
       {/* Filters Panel */}
-      <div className="max-w-6xl mx-auto px-4 mt-6 mb-8 relative z-10">
-        <div className="bg-white rounded-2xl shadow-lg p-6 anim-slide-up anim-delay-1">
-          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Filter Requests</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 mt-4 sm:mt-6 mb-6 sm:mb-8 relative z-10">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 anim-slide-up anim-delay-1">
+          <h2 className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 sm:mb-4">Filter Requests</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 
             <div>
               <label className="text-xs font-semibold text-gray-400 mb-1 block">Province</label>

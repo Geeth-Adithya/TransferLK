@@ -17,8 +17,8 @@ function FindVacancy() {
   }, []);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-blue-700 mb-6">Find Vacancies</h2>
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl font-bold text-blue-700 mb-4 sm:mb-6">Find Vacancies</h2>
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : vacancies.length === 0 ? (

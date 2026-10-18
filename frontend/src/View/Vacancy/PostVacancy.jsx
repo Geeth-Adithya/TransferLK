@@ -154,22 +154,22 @@ function PostVacancy() {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-600 text-white pt-20 pb-24 px-6 relative overflow-hidden page-enter">
+      <div className="bg-gradient-to-r from-blue-900 to-blue-600 text-white pt-14 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 relative overflow-hidden page-enter">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white to-transparent"></div>
         <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 anim-slide-up">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4 anim-slide-up">
             Manage Transfer Requests
           </h1>
-          <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto anim-slide-up anim-delay-1">
+          <p className="text-blue-100 text-xs sm:text-base md:text-lg max-w-2xl mx-auto anim-slide-up anim-delay-1 px-2">
             Post your transfer requirements or manage your existing requests.
           </p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto -mt-12 px-4 space-y-8 relative z-20">
+      <div className="max-w-4xl mx-auto -mt-10 sm:-mt-12 px-3 sm:px-4 space-y-6 sm:space-y-8 relative z-20">
         
         {/* Post/Edit Form */}
-        <div className="bg-white p-8 rounded-2xl shadow-xl w-full mx-auto border border-gray-100 anim-scale-in anim-delay-2">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl w-full mx-auto border border-gray-100 anim-scale-in anim-delay-2">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
             <span className="text-blue-600">{editingId ? '✏️' : '📝'}</span> 
             {editingId ? 'Edit Request' : 'Post a Transfer Request'}
@@ -274,13 +274,13 @@ function PostVacancy() {
 
         {/* My Vacancies List */}
         {myVacancies.length > 0 && (
-          <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 anim-slide-up anim-delay-3">
-            <h3 className="text-xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-100 flex items-center gap-2">
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 anim-slide-up anim-delay-3">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-100 flex items-center gap-2">
               <span className="text-blue-600">📋</span> My Posted Transfer Requests
             </h3>
             <div className="space-y-4">
               {myVacancies.map((vac, idx) => (
-                <div key={vac.id} className={`border border-gray-100 bg-gray-50 rounded-xl p-6 flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between hover:shadow-md hover:border-blue-200 transition-all anim-slide-up anim-delay-${Math.min((idx % 8) + 4, 12)}`}>
+                <div key={vac.id} className={`border border-gray-100 bg-gray-50 rounded-xl p-4 sm:p-6 flex flex-col lg:flex-row gap-4 sm:gap-6 items-start lg:items-center justify-between hover:shadow-md hover:border-blue-200 transition-all anim-slide-up anim-delay-${Math.min((idx % 8) + 4, 12)}`}>
                   <div className="flex-1 w-full">
                     <div className="flex items-center gap-3 mb-2">
                       <h4 className="font-bold text-lg text-blue-900">{vac.subject}</h4>

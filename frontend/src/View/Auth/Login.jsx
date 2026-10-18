@@ -25,11 +25,11 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md anim-scale-in">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 p-4 sm:p-6">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md anim-scale-in border border-gray-100">
 
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-extrabold text-blue-700">Welcome Back 👋</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-blue-700">Welcome Back 👋</h2>
           <p className="text-gray-400 text-sm mt-1">Login to your TransferLK account</p>
           {from !== '/dashboard' && (
             <p className="text-xs text-blue-500 mt-2 bg-blue-50 px-3 py-1.5 rounded-lg">

@@ -109,8 +109,8 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md anim-scale-in border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 p-3 sm:p-4">
+      <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md anim-scale-in border border-gray-100">
         
         {/* Step Indicator Header */}
         <div className="text-center mb-6">

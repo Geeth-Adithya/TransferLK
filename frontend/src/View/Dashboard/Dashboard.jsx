@@ -14,22 +14,22 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-8">
-      <h2 className="text-3xl font-bold text-blue-700 anim-slide-up">Dashboard</h2>
+    <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 sm:space-y-8">
+      <h2 className="text-2xl sm:text-3xl font-bold text-blue-700 anim-slide-up">Dashboard</h2>
       
       {/* Quick Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Link to="/vacancies" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-1 group">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <Link to="/vacancies" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-1 group">
           <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">🔍</div>
           <h3 className="text-lg font-bold text-gray-800">Browse Requests</h3>
           <p className="text-gray-500 text-sm mt-1">Search for mutual transfers</p>
         </Link>
-        <Link to="/post-vacancy" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-2 group">
+        <Link to="/post-vacancy" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-2 group">
           <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">📝</div>
           <h3 className="text-lg font-bold text-gray-800">Post a Request</h3>
           <p className="text-gray-500 text-sm mt-1">Create a new transfer request</p>
         </Link>
-        <Link to="/profile" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-3 group">
+        <Link to="/profile" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-3 group sm:col-span-2 md:col-span-1">
           <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">👤</div>
           <h3 className="text-lg font-bold text-gray-800">My Profile</h3>
           <p className="text-gray-500 text-sm mt-1">View and edit your profile</p>
@@ -37,7 +37,7 @@ function Dashboard() {
       </div>
 
       {/* Overview Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 anim-slide-up anim-delay-4">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-8 anim-slide-up anim-delay-4">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-800">My Transfer Requests</h3>
           <Link to="/post-vacancy" className="text-sm font-semibold text-blue-600 hover:underline">Manage All &rarr;</Link>
@@ -55,7 +55,7 @@ function Dashboard() {
         ) : (
           <div className="space-y-4">
             {myVacancies.map(vac => (
-              <div key={vac.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors">
+              <div key={vac.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3.5 sm:p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors gap-3 sm:gap-0">
                 <div>
                   <h4 className="font-bold text-gray-800">{vac.subject}</h4>
                   <p className="text-sm text-gray-500 mt-0.5">

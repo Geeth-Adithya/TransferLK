@@ -84,7 +84,10 @@ class Vacancy {
                 COALESCE(s.province, u.province) as province, 
                 COALESCE(s.district, u.district) as district, 
                 COALESCE(s.type, u.school_type) as school_type,
-                s.city as school_city
+                s.city as school_city,
+                u.name as teacher_name,
+                u.email as teacher_email,
+                u.mobile as teacher_mobile
                 FROM {$this->table} v
                 LEFT JOIN users u ON v.posted_by = u.id
                 LEFT JOIN schools s ON (v.school_id = s.id OR (v.school_id IS NULL AND u.current_school_name = s.name))

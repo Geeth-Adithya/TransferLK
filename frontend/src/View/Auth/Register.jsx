@@ -83,25 +83,25 @@ const STEPS = [
 // ── Progress Stepper ──────────────────────────────────────────
 function Stepper({ current }) {
   return (
-    <div className="flex items-center justify-center mb-8">
+    <div className="flex items-center justify-center mb-6 sm:mb-8 overflow-hidden">
       {STEPS.map((step, i) => (
         <div key={i} className="flex items-center">
           <div className="flex flex-col items-center">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold border-2 transition-all duration-300 ${
+            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-bold border-2 transition-all duration-300 ${
               i < current  ? 'bg-blue-600 border-blue-600 text-white' :
-              i === current ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 scale-110' :
+              i === current ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 scale-105 sm:scale-110' :
                              'bg-white border-gray-200 text-gray-300'
             }`}>
               {i < current ? '✓' : step.icon}
             </div>
-            <span className={`text-xs mt-1.5 font-medium hidden sm:block ${
+            <span className={`text-[11px] sm:text-xs mt-1.5 font-medium hidden sm:block ${
               i <= current ? 'text-blue-600' : 'text-gray-300'
             }`}>
               {step.label}
             </span>
           </div>
           {i < STEPS.length - 1 && (
-            <div className={`h-0.5 w-10 sm:w-16 mx-1 transition-all duration-500 ${
+            <div className={`h-0.5 w-6 sm:w-12 md:w-16 mx-0.5 sm:mx-1 transition-all duration-500 ${
               i < current ? 'bg-blue-600' : 'bg-gray-200'
             }`} />
           )}
@@ -538,8 +538,8 @@ function Register() {
 
   // ── Form ──────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center px-4 py-10">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-7">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center px-3 sm:px-4 py-6 sm:py-10">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-xl p-4 sm:p-7">
 
         {/* Header */}
         <div className="text-center mb-6">
