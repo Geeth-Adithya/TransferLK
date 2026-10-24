@@ -15,6 +15,7 @@ function Welcome() {
     logout();
     setAuthed(false);
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 flex flex-col items-center justify-center relative overflow-hidden">
 
@@ -53,13 +54,13 @@ function Welcome() {
             to="/vacancies"
             className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3 bg-yellow-400 text-blue-900 font-bold rounded-full shadow-lg hover:bg-yellow-300 hover:scale-105 transition-all duration-300 text-sm sm:text-base text-center"
           >
-            🔍 Find a Transfer Request
+            Find a Transfer Request
           </Link>
           <Link
             to="/post-vacancy"
             className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3 bg-white/20 text-white font-bold rounded-full border-2 border-white/60 backdrop-blur-sm hover:bg-white/30 hover:scale-105 transition-all duration-300 text-sm sm:text-base text-center"
           >
-            📝 Post a Transfer Request
+            Post a Transfer Request
           </Link>
         </div>
 
@@ -68,21 +69,21 @@ function Welcome() {
           <div className="animate-fade-up-delay-3 text-sm flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-1">
             <Link
               to="/dashboard"
-              className="text-white hover:text-yellow-300 font-semibold transition-colors px-4 py-1.5 rounded-full border border-white/20 hover:border-yellow-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm flex items-center gap-1.5"
+              className="text-white hover:text-yellow-300 font-semibold transition-colors px-4 py-1.5 rounded-full border border-white/20 hover:border-yellow-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm"
             >
-              📊 Dashboard
+              Dashboard
             </Link>
             <Link
               to="/profile"
-              className="text-white hover:text-yellow-300 font-semibold transition-colors px-4 py-1.5 rounded-full border border-white/20 hover:border-yellow-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm flex items-center gap-1.5"
+              className="text-white hover:text-yellow-300 font-semibold transition-colors px-4 py-1.5 rounded-full border border-white/20 hover:border-yellow-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm"
             >
-              👤 Profile
+              Profile
             </Link>
             <button
               onClick={handleLogout}
-              className="text-white/80 hover:text-red-300 font-semibold transition-colors px-3 py-1.5 rounded-full border border-white/20 hover:border-red-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm flex items-center gap-1 cursor-pointer"
+              className="text-white/80 hover:text-red-300 font-semibold transition-colors px-3 py-1.5 rounded-full border border-white/20 hover:border-red-300/50 bg-white/10 backdrop-blur-md text-xs sm:text-sm cursor-pointer"
             >
-              🚪 Logout
+              Logout
             </button>
           </div>
         ) : (

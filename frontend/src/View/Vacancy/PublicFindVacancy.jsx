@@ -23,17 +23,10 @@ const DISTRICTS = {
 const SCHOOL_TYPES = ['All Types', 'National', 'Provincial', 'Pirivena', 'International'];
 const STATUSES     = ['All', 'open', 'closed', 'paused'];
 
-const SUBJECT_ICONS = {
-  Mathematics: '📐', Science: '🔬', English: '📖', Sinhala: '📜',
-  Tamil: '📜', History: '🏛️', ICT: '💻', Art: '🎨', Biology: '🧬',
-  Commerce: '📊', Music: '🎵', Physics: '⚛️', Chemistry: '🧪',
-  Geography: '🗺️', default: '📚',
-};
-
 const statusLabel = (s) => {
-  if (s === 'open')   return { label: '● Open',   cls: 'bg-green-100 text-green-700' };
-  if (s === 'closed') return { label: '● Closed', cls: 'bg-red-100 text-red-600' };
-  if (s === 'paused') return { label: '⏸ Paused', cls: 'bg-yellow-100 text-yellow-700' };
+  if (s === 'open')   return { label: 'Open',   cls: 'bg-green-100 text-green-700' };
+  if (s === 'closed') return { label: 'Closed', cls: 'bg-red-100 text-red-600' };
+  if (s === 'paused') return { label: 'Paused', cls: 'bg-yellow-100 text-yellow-700' };
   return { label: s, cls: 'bg-gray-100 text-gray-600' };
 };
 
@@ -47,7 +40,11 @@ function LoginModal({ vacancy, onClose, onLogin, onRegister }) {
         <button onClick={onClose}
           className="absolute top-4 right-4 text-gray-300 hover:text-gray-600 text-xl transition">✕</button>
         <div className="flex flex-col items-center text-center mb-5">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-4xl mb-3">🔐</div>
+          <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3">
+            <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
           <h2 className="text-xl font-extrabold text-gray-800">Login Required</h2>
           <p className="text-gray-400 text-sm mt-1 leading-relaxed">
             Please login or create an account to view full request details.
@@ -56,11 +53,11 @@ function LoginModal({ vacancy, onClose, onLogin, onRegister }) {
         {vacancy && (
           <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-5 text-sm text-gray-600 space-y-1">
             <p className="font-semibold text-blue-800">
-              {SUBJECT_ICONS[vacancy.subject] || SUBJECT_ICONS.default} {vacancy.subject} Transfer Request
+              {vacancy.subject} Transfer Request
             </p>
-            <p>📍 {vacancy.district}</p>
-            <p>🏫 {vacancy.school_name}</p>
-            {vacancy.school_type && <p>🏛️ {vacancy.school_type} School</p>}
+            <p>Location: {vacancy.district}</p>
+            <p>School: {vacancy.school_name}</p>
+            {vacancy.school_type && <p>Type: {vacancy.school_type} School</p>}
           </div>
         )}
         <div className="flex flex-col gap-3">
@@ -80,7 +77,6 @@ function LoginModal({ vacancy, onClose, onLogin, onRegister }) {
 
 // ── Vacancy Card ──────────────────────────────────────────────
 function VacancyCard({ vacancy, onViewClick }) {
-  const icon = SUBJECT_ICONS[vacancy.subject] || SUBJECT_ICONS.default;
   const { label, cls } = statusLabel(vacancy.status);
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between">
@@ -91,19 +87,21 @@ function VacancyCard({ vacancy, onViewClick }) {
             vacancy.school_type === 'Provincial' ? 'bg-purple-100 text-purple-700' :
             'bg-gray-100 text-gray-600'
           }`}>
-            🏛️ {vacancy.school_type || 'School'}
+            {vacancy.school_type || 'School'}
           </span>
           <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${cls}`}>
             {label}
           </span>
         </div>
         <h3 className="text-base sm:text-lg font-extrabold text-gray-800 mb-2 sm:mb-3">
-          {icon} {vacancy.subject} Transfer Request
+          {vacancy.subject} Transfer Request
         </h3>
         <div className="space-y-1.5 text-xs sm:text-sm text-gray-500 break-words">
-          <p>📍 {vacancy.district || vacancy.province ? `${vacancy.district || ''}${vacancy.district && vacancy.province ? ', ' : ''}${vacancy.province || ''}` : 'Location not specified'}</p>
-          <p>🏫 {vacancy.school_name || 'School not specified'}</p>
-          {(vacancy.teaching_grade || vacancy.grade) && <p>📋 Grade: {vacancy.teaching_grade || vacancy.grade} {vacancy.specific_grade && `(${vacancy.specific_grade})`}</p>}
+          <p><span className="font-medium text-gray-400">Location:</span> {vacancy.district || vacancy.province ? `${vacancy.district || ''}${vacancy.district && vacancy.province ? ', ' : ''}${vacancy.province || ''}` : 'Not specified'}</p>
+          <p><span className="font-medium text-gray-400">School:</span> {vacancy.school_name || 'Not specified'}</p>
+          {(vacancy.teaching_grade || vacancy.grade) && (
+            <p><span className="font-medium text-gray-400">Grade:</span> {vacancy.teaching_grade || vacancy.grade} {vacancy.specific_grade && `(${vacancy.specific_grade})`}</p>
+          )}
         </div>
       </div>
       <button
@@ -226,7 +224,7 @@ function PublicFindVacancy() {
 
       {/* Hero */}
       <div className="bg-gradient-to-r from-blue-900 to-blue-600 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 text-center">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">🔍 Find a Transfer Request</h1>
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Find a Transfer Request</h1>
         <p className="text-blue-200 text-xs sm:text-sm">Browse school transfer requests across all provinces in Sri Lanka</p>
       </div>
 
@@ -304,15 +302,19 @@ function PublicFindVacancy() {
             {loading ? 'Loading...' : <>Showing <span className="font-semibold text-gray-700">{vacancies.length}</span> requests</>}
           </p>
           {!isAuthenticated() && (
-            <p className="text-xs text-blue-500">🔐 Login to view full details</p>
+            <p className="text-xs text-blue-500 font-medium">Login to view full details</p>
           )}
         </div>
 
         {error && (
-          <div className="text-center py-12 text-red-400">
-            <p className="text-4xl mb-3">⚠️</p>
+          <div className="text-center py-12 text-red-500">
+            <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
             <p className="font-semibold">{error}</p>
-            <button onClick={fetchVacancies} className="mt-3 text-blue-500 hover:underline text-sm">Try again</button>
+            <button onClick={fetchVacancies} className="mt-3 text-blue-600 hover:underline text-sm font-medium">Try again</button>
           </div>
         )}
 
@@ -323,11 +325,15 @@ function PublicFindVacancy() {
         )}
 
         {!loading && !error && vacancies.length === 0 && (
-          <div className="text-center py-24 text-gray-400">
-            <p className="text-5xl mb-4">🏫</p>
-            <p className="text-lg font-semibold">No requests found</p>
+          <div className="text-center py-20 text-gray-400">
+            <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <p className="text-lg font-semibold text-gray-700">No requests found</p>
             <p className="text-sm mt-1">Try adjusting your filters</p>
-            <button onClick={clearFilters} className="mt-4 text-blue-500 hover:underline text-sm">Clear filters</button>
+            <button onClick={clearFilters} className="mt-4 text-blue-600 hover:underline text-sm font-medium">Clear filters</button>
           </div>
         )}
 

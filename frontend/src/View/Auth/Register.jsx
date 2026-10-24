@@ -74,10 +74,10 @@ const POSITIONS = ['Assistant Teacher', 'Senior Teacher', 'Deputy Principal', 'P
 
 // ── Step Config ───────────────────────────────────────────────
 const STEPS = [
-  { label: 'Account',     icon: '👤' },
-  { label: 'Teacher Info', icon: '📋' },
-  { label: 'Current School', icon: '🏫' },
-  { label: 'Preferences', icon: '📍' },
+  { label: 'Account',     icon: '1' },
+  { label: 'Teacher Info', icon: '2' },
+  { label: 'Current School', icon: '3' },
+  { label: 'Preferences', icon: '4' },
 ];
 
 // ── Progress Stepper ──────────────────────────────────────────
@@ -92,7 +92,7 @@ function Stepper({ current }) {
               i === current ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 scale-105 sm:scale-110' :
                              'bg-white border-gray-200 text-gray-300'
             }`}>
-              {i < current ? '✓' : step.icon}
+              {i < current ? '✓' : (i + 1)}
             </div>
             <span className={`text-[11px] sm:text-xs mt-1.5 font-medium hidden sm:block ${
               i <= current ? 'text-blue-600' : 'text-gray-300'
@@ -333,8 +333,8 @@ function Step4({ data, onChange, subjects, errors }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-600">
-        💡 Transfer preferences help us match you with the most suitable vacancies. These can be changed later.
+      <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-700">
+        Transfer preferences help us match you with the most suitable vacancies. These can be changed later.
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -394,7 +394,6 @@ function Step4({ data, onChange, subjects, errors }) {
         </label>
         {errors?.agreed && (
           <p className="text-red-500 text-xs font-semibold mt-2 bg-red-50 border border-red-200 p-2.5 rounded-lg flex items-center gap-1.5 animate-fade">
-            <span>⚠️</span>
             <span>{errors.agreed}</span>
           </p>
         )}
@@ -520,12 +519,16 @@ function Register() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-          <div className="text-6xl mb-4">🎉</div>
+          <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
           <h2 className="text-2xl font-extrabold text-blue-700 mb-2">Registration Successful!</h2>
           <p className="text-gray-400 text-sm mb-2">Welcome to TransferLK, <span className="font-semibold text-gray-700">{form.fullName}</span>!</p>
           <p className="text-xs text-gray-400 mb-6">Please check your email to verify your account before logging in.</p>
           <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs text-amber-700 mb-6 text-left">
-            🔐 <strong>NIC Verification:</strong> Your NIC will be verified by an admin within 24-48 hours. Full access will be granted after verification.
+            <strong>NIC Verification:</strong> Your NIC will be verified by an admin within 24-48 hours. Full access will be granted after verification.
           </div>
           <button onClick={() => navigate('/login')}
             className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">
@@ -554,7 +557,9 @@ function Register() {
         {submitError && (
           <div className="my-4 bg-red-50 border border-red-200 text-red-700 text-xs p-3.5 rounded-xl flex items-center justify-between gap-2 animate-fade">
             <div className="flex items-center gap-2">
-              <span className="text-sm">⚠️</span>
+              <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
               <span className="font-medium">{submitError}</span>
             </div>
             {submitError.toLowerCase().includes('already registered') && (
@@ -601,7 +606,7 @@ function Register() {
                     <span>Registering...</span>
                   </>
                 ) : (
-                  <span>✓ Register</span>
+                  <span>Register</span>
                 )}
               </button>
             )}

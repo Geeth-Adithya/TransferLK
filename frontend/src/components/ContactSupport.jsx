@@ -34,7 +34,6 @@ I would like to report an issue or request adding a school:
 Thank you!`;
 
   const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_INFO.email}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-  const mailtoUrl = `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
   return (
     <>
@@ -49,7 +48,9 @@ Thank you!`;
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-green-400"></span>
           </span>
-          <span className="text-base sm:text-lg">💬</span>
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
           <span>Contact Us</span>
         </button>
       </div>
@@ -74,8 +75,10 @@ Thank you!`;
                 ✕
               </button>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-2xl flex items-center justify-center text-xl sm:text-2xl backdrop-blur-sm shrink-0">
-                  🤝
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm shrink-0">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold">Contact Support</h3>
@@ -95,8 +98,10 @@ Thank you!`;
                 {/* Phone Call */}
                 <div className="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-blue-400 hover:bg-blue-50/30 transition group">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-lg">
-                      📞
+                    <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-gray-400">Phone</p>
@@ -120,7 +125,11 @@ Thank you!`;
                       className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg text-xs"
                       title="Copy phone"
                     >
-                      {copiedType === 'phone' ? '✓' : '📋'}
+                      {copiedType === 'phone' ? '✓' : (
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -128,8 +137,10 @@ Thank you!`;
                 {/* WhatsApp */}
                 <div className="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-green-400 hover:bg-green-50/30 transition group">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-green-100 text-green-700 flex items-center justify-center text-lg">
-                      💬
+                    <div className="w-10 h-10 rounded-xl bg-green-100 text-green-700 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-10.416c-4.408 0-7.99 3.582-7.99 7.99 0 1.408.366 2.73 1.006 3.879l-1.07 3.909 3.997-1.049c1.106.604 2.373.951 3.723.951 4.408 0 7.99-3.582 7.99-7.99 0-4.408-3.582-7.89-7.656-7.69z"/>
+                      </svg>
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-gray-400">WhatsApp</p>
@@ -149,8 +160,10 @@ Thank you!`;
                 {/* Email */}
                 <div className="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-indigo-400 hover:bg-indigo-50/30 transition group">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
-                      ✉️
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-gray-400">Email</p>
@@ -180,7 +193,11 @@ Thank you!`;
                       className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg text-xs"
                       title="Copy email address"
                     >
-                      {copiedType === 'email' ? '✓' : '📋'}
+                      {copiedType === 'email' ? '✓' : (
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>

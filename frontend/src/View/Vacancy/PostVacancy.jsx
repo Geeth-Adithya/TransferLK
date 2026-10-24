@@ -171,8 +171,7 @@ function PostVacancy() {
         {/* Post/Edit Form */}
         <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl w-full mx-auto border border-gray-100 anim-scale-in anim-delay-2">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <span className="text-blue-600">{editingId ? '✏️' : '📝'}</span> 
-            {editingId ? 'Edit Request' : 'Post a Transfer Request'}
+            {editingId ? 'Edit Transfer Request' : 'Post a Transfer Request'}
           </h2>
           {success && <p className="bg-green-50 text-green-700 p-3 rounded-lg text-sm mb-6 border border-green-200 font-medium">{success}</p>}
           {error && <p className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-6 border border-red-200 font-medium">{error}</p>}
@@ -276,7 +275,7 @@ function PostVacancy() {
         {myVacancies.length > 0 && (
           <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 anim-slide-up anim-delay-3">
             <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-100 flex items-center gap-2">
-              <span className="text-blue-600">📋</span> My Posted Transfer Requests
+              My Posted Transfer Requests
             </h3>
             <div className="space-y-4">
               {myVacancies.map((vac, idx) => (
@@ -312,7 +311,7 @@ function PostVacancy() {
                     
                     {/* Placeholder for requests */}
                     <div className="mt-4 inline-flex items-center gap-2 text-sm text-blue-600 font-semibold cursor-pointer hover:text-blue-800 transition-colors bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
-                      <span>📬</span> View Responses (Coming Soon)
+                      View Responses (Coming Soon)
                     </div>
                   </div>
 

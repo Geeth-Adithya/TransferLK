@@ -20,17 +20,29 @@ function Dashboard() {
       {/* Quick Links */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         <Link to="/vacancies" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-1 group">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">🔍</div>
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
           <h3 className="text-lg font-bold text-gray-800">Browse Requests</h3>
           <p className="text-gray-500 text-sm mt-1">Search for mutual transfers</p>
         </Link>
         <Link to="/post-vacancy" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-2 group">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">📝</div>
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </div>
           <h3 className="text-lg font-bold text-gray-800">Post a Request</h3>
           <p className="text-gray-500 text-sm mt-1">Create a new transfer request</p>
         </Link>
         <Link to="/profile" className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 hover:shadow-md hover:border-blue-200 transition-all text-center anim-slide-up anim-delay-3 group sm:col-span-2 md:col-span-1">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl group-hover:scale-110 transition-transform">👤</div>
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
           <h3 className="text-lg font-bold text-gray-800">My Profile</h3>
           <p className="text-gray-500 text-sm mt-1">View and edit your profile</p>
         </Link>
@@ -80,4 +92,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

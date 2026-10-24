@@ -45,18 +45,18 @@ function Navbar() {
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-2">
             <Link to="/vacancies" className={navLinkClass('/vacancies')}>
-              🔍 Find Requests
+              Find Requests
             </Link>
             {authed ? (
               <>
                 <Link to="/post-vacancy" className={navLinkClass('/post-vacancy')}>
-                  📝 Post a Request
+                  Post a Request
                 </Link>
                 <Link to="/dashboard" className={navLinkClass('/dashboard')}>
-                  📊 Dashboard
+                  Dashboard
                 </Link>
                 <Link to="/profile" className={navLinkClass('/profile')}>
-                  👤 Profile
+                  Profile
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -105,24 +105,24 @@ function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-blue-900/95 backdrop-blur-md border-t border-blue-800 px-4 pt-3 pb-5 space-y-1.5 animate-fade shadow-2xl">
           <Link to="/vacancies" onClick={closeMenu} className={mobileNavLinkClass('/vacancies')}>
-            🔍 Find Transfer Requests
+            Find Requests
           </Link>
           {authed ? (
             <>
               <Link to="/post-vacancy" onClick={closeMenu} className={mobileNavLinkClass('/post-vacancy')}>
-                📝 Post a Request
+                Post a Request
               </Link>
               <Link to="/dashboard" onClick={closeMenu} className={mobileNavLinkClass('/dashboard')}>
-                📊 Dashboard
+                Dashboard
               </Link>
               <Link to="/profile" onClick={closeMenu} className={mobileNavLinkClass('/profile')}>
-                👤 My Profile
+                Profile
               </Link>
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-red-300 hover:bg-red-900/40 hover:text-white transition flex items-center gap-2"
+                className="w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-red-300 hover:bg-red-900/40 hover:text-white transition"
               >
-                <span>🚪</span> Logout
+                Logout
               </button>
             </>
           ) : (
@@ -150,4 +150,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

@@ -52,7 +52,11 @@ function VacancyDetails() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
         <div className="bg-white rounded-2xl shadow-sm p-8 max-w-md w-full text-center space-y-4 border border-gray-100">
-          <p className="text-5xl">😕</p>
+          <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
           <h2 className="text-xl font-bold text-gray-800">{error || 'Vacancy not found'}</h2>
           <p className="text-gray-500 text-sm">
             This transfer request may have been removed or is no longer available.
@@ -96,14 +100,14 @@ function VacancyDetails() {
               vacancy.school_type === 'Provincial' ? 'bg-purple-100 text-purple-700' :
               'bg-gray-100 text-gray-700'
             }`}>
-              🏛️ {vacancy.school_type || 'School'}
+              {vacancy.school_type || 'School'}
             </span>
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
               vacancy.status === 'open' ? 'bg-green-100 text-green-700' :
               vacancy.status === 'closed' ? 'bg-red-100 text-red-600' :
               'bg-yellow-100 text-yellow-700'
             }`}>
-              ● {vacancy.status ? (vacancy.status.charAt(0).toUpperCase() + vacancy.status.slice(1)) : 'Open'}
+              {vacancy.status ? (vacancy.status.charAt(0).toUpperCase() + vacancy.status.slice(1)) : 'Open'}
             </span>
           </div>
 
@@ -113,7 +117,7 @@ function VacancyDetails() {
               {vacancy.subject} Transfer Request
             </h1>
             <p className="text-gray-500 text-sm">
-              📚 Teaching Grade: <span className="font-semibold text-gray-700">{vacancy.teaching_grade}</span> {vacancy.specific_grade && `(${vacancy.specific_grade})`}
+              Teaching Grade: <span className="font-semibold text-gray-700">{vacancy.teaching_grade}</span> {vacancy.specific_grade && `(${vacancy.specific_grade})`}
             </p>
           </div>
 
@@ -123,15 +127,15 @@ function VacancyDetails() {
           <div className="space-y-2.5 text-sm text-gray-600 bg-gray-50/70 p-4 rounded-xl border border-gray-100">
             <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider">Current Posting</h3>
             <p className="text-base font-bold text-gray-800">
-              🏫 {vacancy.school_name || 'School not specified'}
+              {vacancy.school_name || 'School not specified'}
               {vacancy.school_city && <span className="text-sm font-normal text-gray-500"> ({vacancy.school_city})</span>}
             </p>
             <p className="text-gray-600">
-              📍 {vacancy.district ? `${vacancy.district}, ` : ''}{vacancy.province ? `${vacancy.province} Province` : ''}
+              {vacancy.district ? `${vacancy.district}, ` : ''}{vacancy.province ? `${vacancy.province} Province` : ''}
             </p>
             {vacancy.created_at && (
               <p className="text-xs text-gray-400 pt-1">
-                📅 Posted on {vacancy.created_at.split(' ')[0]}
+                Posted on {vacancy.created_at.split(' ')[0]}
               </p>
             )}
           </div>
@@ -179,10 +183,10 @@ function VacancyDetails() {
               </div>
             </div>
 
-            <div className="space-y-1.5 text-sm text-gray-600 break-all pt-1">
+            <div className="space-y-2 text-sm text-gray-600 break-all pt-1">
               {vacancy.teacher_email && (
                 <p className="flex items-center gap-2">
-                  <span>✉️</span>
+                  <span className="text-gray-400 font-medium">Email:</span>
                   <a href={`mailto:${vacancy.teacher_email}`} className="text-blue-600 hover:underline font-medium">
                     {vacancy.teacher_email}
                   </a>
@@ -190,7 +194,7 @@ function VacancyDetails() {
               )}
               {vacancy.teacher_mobile && (
                 <p className="flex items-center gap-2">
-                  <span>📞</span>
+                  <span className="text-gray-400 font-medium">Phone:</span>
                   <a href={`tel:${vacancy.teacher_mobile}`} className="text-blue-600 hover:underline font-medium">
                     {vacancy.teacher_mobile}
                   </a>
@@ -205,7 +209,7 @@ function VacancyDetails() {
                   href={`mailto:${vacancy.teacher_email}?subject=${encodeURIComponent(`Transfer Request Inquiry - ${vacancy.subject} - ${vacancy.school_name || ''}`)}`}
                   className="flex-1 text-center px-4 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition shadow-sm"
                 >
-                  ✉️ Send Email
+                  Send Email
                 </a>
               )}
               {vacancy.teacher_mobile && (
@@ -213,7 +217,7 @@ function VacancyDetails() {
                   href={`tel:${vacancy.teacher_mobile}`}
                   className="flex-1 text-center px-4 py-2.5 bg-white border border-blue-300 text-blue-700 rounded-xl font-semibold text-sm hover:bg-blue-50 transition"
                 >
-                  📞 Call
+                  Call
                 </a>
               )}
               {vacancy.teacher_mobile && (
@@ -223,7 +227,7 @@ function VacancyDetails() {
                   rel="noopener noreferrer"
                   className="flex-1 text-center px-4 py-2.5 bg-green-600 text-white rounded-xl font-semibold text-sm hover:bg-green-700 transition shadow-sm"
                 >
-                  💬 WhatsApp
+                  WhatsApp
                 </a>
               )}
             </div>
